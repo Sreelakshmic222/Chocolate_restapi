@@ -1,0 +1,41 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Title</title>
+    <style>
+        .container { display: flex; align-items: stretch; justify-content: space-around; padding: 50px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+<div class="card" style="max-width:840px;height:350px;">
+    <div class="row no-gutters">
+    <div class="col-md-4">
+        <img src="{{object.image_url}}" class="card-img">
+    </div>
+
+<div class="col-md-8">
+    <div class="card-body">
+        <h4 class="card-title">{{object.title }}</h4>
+        <p class="card-text">{{object.description}}</p>
+        <p>Price: $ {{ object.price|floatformat:2 }}</p>
+<!--        <a href="{{ object.follow_company }}" class="btn btn-info" role="button">Follow Company</a>-->
+        <p><p><a href="{% url 'addcart' object.id %}" class="btn btn-outline-success" role="button">Add to cart</a>&nbsp<a href="{% url 'list' %}" class="btn btn-danger" role="button">Cancel Order</a></p>
+        <p><a href="{%url 'addfavo' object.id %}" class="btn btn-outline-success" role="button">Add to Wishlist</a>
+        {% if object.choco_available is True %}
+<a href="{% url 'checkout' object.id %}" class="btn btn-outline-success" role="button">Proceed to Pay</a>
+{% else %}
+<h4 class="text-danger">Out of Stock...!</h4>
+{% endif %}
+    </div>
+    </div>
+    </div>
+</div>
+</div>
+</body>
+
+{% endblock content %}
+</html>
