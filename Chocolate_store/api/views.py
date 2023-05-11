@@ -18,27 +18,7 @@ from rest_framework import generics
 #html render
 from rest_framework.renderers import TemplateHTMLRenderer
 
-# # Register API
-# class RegisterAPI(generics.GenericAPIView):
-#     serializer_class = RegisterSerializer
-#
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.save()
-#         return Response({
-#         "user": UserSerializer(user, context=self.get_serializer_context()).data,
-#         "token": AuthToken.objects.create(user)[1]
-#         })
-# class LoginAPI(KnoxLoginView):
-#     permission_classes = (permissions.AllowAny,)
-#
-#     def post(self, request, format=None):
-#         serializer = AuthTokenSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['user']
-#         login(request, user)
-#         return super(LoginAPI, self).post(request, format=None)
+
 
 class ListChocos(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -50,6 +30,7 @@ class ListChocos(generics.ListCreateAPIView):
 
     def list(self,request,**kwargs):
         queryset = self.get_queryset()
+        #serializer=Chocoserializer(queryset,many=True)
         return Response({'object_list':queryset})
 
 class DetailChoco(generics.RetrieveUpdateDestroyAPIView):
@@ -69,13 +50,6 @@ class DetailChoco(generics.RetrieveUpdateDestroyAPIView):
         if not authenticated:
             return redirect('list')
         return Response({'object':queryset,'authenticated':authenticated})
-
-# class UpdateChoco(generics.UpdateAPIView):
-#     queryset = Chocolate.objects.all()
-#     serializer_class = ChocoSerializer
-#
-#     def put(self, request, pk):
-#         return self.update(request,pk)
 
 class Checkoutview(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
